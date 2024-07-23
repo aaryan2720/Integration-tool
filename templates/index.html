@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expression Integration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 30px;
+        }
+        .form-group input[type="text"], .form-group input[type="number"] {
+            padding: 10px;
+            font-size: 18px;
+            margin: 5px 0;
+        }
+        .form-group button[type="submit"] {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .note {
+            color: #007bff;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        .result, .error {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 5px;
+            font-size: 20px;
+        }
+        .result {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .limits {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .limits label, .limits input {
+            margin: 0 10px;
+        }
+    </style>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Expression Integration</h1>
+        <form method="post" class="form-group">
+            <label for="expression">Enter a mathematical expression:</label>
+            <input type="text" id="expression" name="expression" required value="{{ expression or '' }}">
+            
+            <label for="variable">Variable of integration (default is x):</label>
+            <input type="text" id="variable" name="variable" value="{{ variable or 'x' }}">
+            
+            <div class="limits">
+                <label for="lower_limit">Lower limit:</label>
+                <input type="number" id="lower_limit" name="lower_limit" step="any" value="{{ lower_limit or '' }}">
+                <label for="upper_limit">Upper limit:</label>
+                <input type="number" id="upper_limit" name="upper_limit" step="any" value="{{ upper_limit or '' }}">
+            </div>
+            
+            <button type="submit">Integrate</button>
+        </form>
+        
+        <div class="note">
+            <p><b>Note:</b> Use ** for exponentiation. For example, x**2 represents x raised to the power of 2.</p>
+            <p>Also, use * for multiplication (e.g., 8*x).</p>
+        </div>
+
+        {% if integral_result %}
+        <div class="result">
+            <h2>Result:</h2>
+            <p>$$ {{ integral_result }} $$</p>
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="error">
+            <h2>Error:</h2>
+            <p>{{ error }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
